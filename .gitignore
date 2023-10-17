@@ -3,7 +3,7 @@
 *.pyo
 *.pyd
 __pycache__/
-.venv/
+venv/
 .vscode/
 *.sublime-project
 *.sublime-workspace
