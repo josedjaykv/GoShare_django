@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center display-3 py-5">Mis vehículos</h1>
+        <ul class="list-group">
+            {% for vehiculo in vehiculos %}
+            <a class="list-group-item" href="{% url 'vehiculo_detail' vehiculo.id %}">                
+                <header class="d-flex justify-content-between">
+                    <h1 class="fw-bold">{{vehiculo.model}}</h1>
+                    <p>{{vehiculo.user.username}}</p>
+                </header>
+                <p>{{vehiculo.brand}}</p>
+            </a>
+            {% endfor %}
+        </ul>
+
+    </div>
+</main>
+
+{% endblock %}

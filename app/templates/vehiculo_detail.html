@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="text-secondary">{{vehiculo.model}}</h1>
+
+            {{error}}
+
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary">
+                    Update
+                </button>
+            </form>
+
+            <div class="mt-5 d-flex">                   
+                <form action="{% url 'delete_vehiculo' vehiculo.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
