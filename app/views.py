@@ -150,7 +150,7 @@ def my_trips(request):
     print(trips)
     
     return render(request, 'trips.html', {
-        'mytrips':mytrips,
+        'mytrips':trips
     })
 
 @login_required
