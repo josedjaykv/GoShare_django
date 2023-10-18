@@ -4,13 +4,13 @@ from .models import Vehiculo, Trip
 class VehiculoForm(forms.ModelForm):    
     class Meta:
         model = Vehiculo
-        fields = ['brand', 'model', 'color', 'numseats']
+        fields = ['brand', 'model', 'plate', 'color',]
 
         widgets = {
             'brand': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write a brand'}),
             'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write a model'}),
+            'plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write the plate of your car'}),
             'color': forms.Select(attrs={'class': 'form-control'}),
-            'numseats': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
         }
 
 class TripForm(forms.ModelForm):
@@ -22,7 +22,7 @@ class TripForm(forms.ModelForm):
 
     class Meta:
         model = Trip
-        fields = ['startingPlace', 'arrivalPlace', 'details', 'departureTime', 'travelDate', 'numseatsfree', 'vehiculo_disponible', 'completed']
+        fields = ['startingPlace', 'arrivalPlace', 'details', 'departureTime', 'travelDate', 'numseatsfree', 'vehiculo_disponible']
 
         widgets = {
             'startingPlace': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Estación exposiciones'}),
@@ -32,5 +32,4 @@ class TripForm(forms.ModelForm):
             'travelDate': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2021-10-10'}),
             'numseatsfree': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
             'vehiculo_disponible': forms.Select(attrs={'class': 'form-control'}),
-            'completed': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

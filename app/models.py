@@ -20,7 +20,7 @@ class Vehiculo(models.Model):
         choices=COLOR_CHOISES,
         default='blanco'
     )  
-    numseats = models.IntegerField()   
+    plate = models.CharField(max_length=10, default="")
     created = models.DateTimeField(auto_now_add = True)
     editionDate = models.DateTimeField(null = True, blank=True)
     

@@ -31,7 +31,7 @@ def signup(request):
                 user.save()
                 # para crear cookie del login usamos el método login
                 login(request, user)
-                return redirect('signin')
+                return redirect('trips')
             except IntegrityError:
                 return render(request, 'signup.html', {
                     'error': "El nombre de usuario ya está en uso",
@@ -145,11 +145,12 @@ def trips(request):
 @login_required
 def my_trips(request):
     # solo los vehiculos del usuario actual que no están completadas
-    trips = Trip.objects.filter(user=request.user)
+    mytrips = Trip.objects.filter(user=request.user)
+    style = 'primary'
     print(trips)
     
     return render(request, 'trips.html', {
-        'trips':trips
+        'mytrips':mytrips,
     })
 
 @login_required
