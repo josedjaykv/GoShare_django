@@ -1,18 +1,20 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 <main class="container">
     <div class="col-md-6 offset-md-3">
-        <h1 class="text-center display-3 py-5">Viajes disponibles</h1>
-        <ul class="list-group">
+        <h1 class="text-center display-3 py-5 text_primary">Viajes disponibles</h1>
+        <ul class="list-group grupo">
 
             {% for trip in mytrips %}
-            <a class="list-group-item" href="{% url 'trip_detail' trip.id %}">                
-                <header class="d-flex justify-content-between">
-                    <h1 class="text-primary">{{trip.startingPlace}}</h1>
-                    <p>{{trip.user.username}}</p>
+            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                <header class="d-flex justify-content-between header_item_group">
+                    <h1 class="text-primary text_primary">{{trip.startingPlace}}</h1>
+                    <h4>{{trip.user.username}}</h4>
                 </header>
+                <hr style="border-color: black;">
                 <p>{{trip.arrivalPlace}}</p>
                 <p>{{trip.departureTime}}</p> 
                 <p>{{trip.travelDate}}</p>                
@@ -21,11 +23,13 @@
             {% endfor %}
 
             {% for trip in trips %}
-            <a class="list-group-item" href="{% url 'trip_detail' trip.id %}">                
+            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
                 <header class="d-flex justify-content-between">
                     <h1 class="fw-bold">{{trip.startingPlace}}</h1>
-                    <p>{{trip.user.username}}</p>
+                    <h4>{{trip.user.username}}</h4>
+                
                 </header>
+                <hr style="border-color: black;">
                 <p>{{trip.arrivalPlace}}</p>
                 <p>{{trip.departureTime}}</p> 
                 <p>{{trip.travelDate}}</p>                
@@ -36,5 +40,6 @@
 
     </div>
 </main>
+<link rel="stylesheet" href="{% static 'css/trips.css' %}">
 
 {% endblock %}

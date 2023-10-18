@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background-color: #f2f2f2;
+}
+.linea_horizontal{
+    color: rgb(0, 0, 0);
+}
+
+.text_primary{
+    font-weight: 700;
+}
