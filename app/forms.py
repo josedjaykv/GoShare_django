@@ -1,8 +1,7 @@
 from django import forms
 from .models import Vehiculo, Trip
 
-class VehiculoForm(forms.ModelForm):
-    
+class VehiculoForm(forms.ModelForm):    
     class Meta:
         model = Vehiculo
         fields = ['brand', 'model', 'color', 'numseats']

@@ -16,6 +16,7 @@ urlpatterns = [
 
     # Viajes
     path('trips/', views.trips, name='trips'),
+    path('trips/mine/', views.my_trips, name='my_trips'),
     path('trips/create/', views.create_trip, name='create_trip'),
     path('trips/<int:trip_id>/', views.trip_detail, name='trip_detail'),
     path('trips/<int:trip_id>/delete/', views.delete_trip, name='delete_trip'),
@@ -23,4 +24,5 @@ urlpatterns = [
 
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
+    path('profile/', views.profile, name='profile'),
 ]

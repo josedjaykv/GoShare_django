@@ -7,12 +7,33 @@
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam excepturi consectetur odio sed aspernatur numquam aut repellendus voluptatum nulla odit ad quas reiciendis dolorem incidunt, perferendis, eos autem veritatis. Repellendus!</p>
         
         <div class="text-center">
-            <a class="btn btn-primary" href="/signin/">
-                Signin
-            </a>
-            <a class="btn btn-secondary" href="/signup/">
-                Signup
-            </a>
+            {% if user.is_authenticated %}
+                <a class="btn btn-primary" href="/trips/">
+                    Viajes disponibles
+                </a>
+                <a class="btn btn-primary" href="/trips/mine/">
+                    Mis viajes
+                </a>
+                <a class="btn btn-success" href="/trips/create/">
+                    Crear viaje
+                </a>
+                <a class="btn btn-primary" href="/vehiculos/">
+                    Mis vehiculos
+                </a>
+                <a class="btn btn-success" href="/vehiculos/create/">
+                    Añadir vehículo
+                </a>
+                <a class="btn btn-danger" href="/logout/">
+                    Logout
+                </a>
+            {% else %}
+                <a class="btn btn-primary" href="/signin/">
+                    Signin
+                </a>
+                <a class="btn btn-secondary" href="/signup/">
+                    Signup
+                </a>
+            {% endif %}            
         </div>
     </section>
 </main>

@@ -6,6 +6,20 @@
     <div class="col-md-6 offset-md-3">
         <h1 class="text-center display-3 py-5">Viajes disponibles</h1>
         <ul class="list-group">
+
+            {% for trip in mytrips %}
+            <a class="list-group-item" href="{% url 'trip_detail' trip.id %}">                
+                <header class="d-flex justify-content-between">
+                    <h1 class="text-primary">{{trip.startingPlace}}</h1>
+                    <p>{{trip.user.username}}</p>
+                </header>
+                <p>{{trip.arrivalPlace}}</p>
+                <p>{{trip.departureTime}}</p> 
+                <p>{{trip.travelDate}}</p>                
+                <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
+            </a>
+            {% endfor %}
+
             {% for trip in trips %}
             <a class="list-group-item" href="{% url 'trip_detail' trip.id %}">                
                 <header class="d-flex justify-content-between">

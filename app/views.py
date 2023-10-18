@@ -7,6 +7,7 @@ from .forms import VehiculoForm, TripForm
 from .models import Vehiculo, Trip
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
@@ -30,14 +31,12 @@ def signup(request):
                 user.save()
                 # para crear cookie del login usamos el método login
                 login(request, user)
-                return redirect('tasks')
+                return redirect('signin')
             except IntegrityError:
                 return render(request, 'signup.html', {
-                    'form': UserCreationForm,
                     'error': "El nombre de usuario ya está en uso",
                 })
         return render(request, 'signup.html', {
-            'form': UserCreationForm,
             'error': "Las contraseñas no coiciden",
         })
 
@@ -45,6 +44,7 @@ def signup(request):
 def vehiculos(request):
     # solo los vehiculos del usuario actual
     vehiculos = Vehiculo.objects.filter(user=request.user)
+    #vehiculos = Vehiculo.objects.all()
     print(vehiculos)
     
     return render(request, 'vehiculo.html', {
@@ -75,7 +75,7 @@ def create_vehiculo(request):
 @login_required
 def vehiculo_detail(request, vehiculo_id):
     if request.method == 'GET':
-        # si la tarea existe la guarda si no muestra un error 404
+        # si la vehiculo existe la guarda si no muestra un error 404
         vehiculo = get_object_or_404(Vehiculo, pk = vehiculo_id, user = request.user)
         form = VehiculoForm(instance=vehiculo)
         return render(request, 'vehiculo_detail.html', {
@@ -90,7 +90,7 @@ def vehiculo_detail(request, vehiculo_id):
             return redirect('vehiculos')
         except ValueError:
             return render(request, 'vehiculo_detail.html', {
-            'task':vehiculo,
+            'vehiculo':vehiculo,
             'form':form,
             'error': 'Error al actualizar, campos por completar'
         })
@@ -123,7 +123,7 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('vehiculos')
+            return redirect('trips')
 
 
 
@@ -131,6 +131,19 @@ def signin(request):
         
 @login_required
 def trips(request):
+    # Obtén todos los viajes excepto los del usuario actual
+    trips = Trip.objects.filter(~Q(user=request.user))
+    
+    # Obtén los viajes del usuario actual
+    mytrips = Trip.objects.filter(user=request.user)      
+    
+    return render(request, 'trips.html', {
+        'mytrips':mytrips,
+        'trips':trips
+    })
+
+@login_required
+def my_trips(request):
     # solo los vehiculos del usuario actual que no están completadas
     trips = Trip.objects.filter(user=request.user)
     print(trips)
@@ -194,5 +207,5 @@ def delete_trip(request, trip_id):
         return redirect('trips')
 
 
-def perfil(request):
+def profile(request):
     return render(request, 'perfil.html')   
