@@ -150,8 +150,8 @@ def my_trips(request):
     mytrips = Trip.objects.filter(user=request.user)
     print(trips)
     
-    return render(request, 'trips.html', {
-        'mytrips':mytrips
+    return render(request, 'my_trips.html', {
+        'mytrips':mytrips,
     })
 
 @login_required
