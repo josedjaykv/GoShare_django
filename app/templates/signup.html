@@ -6,8 +6,17 @@
         <div class="col-md-4 offset-md-4 mt-5 container_form">
             <form method="POST" class="card card-body">
                 <h1 class="text-center">Signup</h1>
-                {{error}}
-            
+                
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 {% csrf_token %}
                 
                 <div class="mb-3">
