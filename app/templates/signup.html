@@ -6,7 +6,7 @@
         <div class="col-md-4 offset-md-4 mt-5 container_form">
             <form method="POST" class="card card-body">
                 <h1 class="text-center">Signup</h1>
-                
+
                 {% if messages %}
                     <div class="alert alert-danger">
                         <ul>
@@ -18,7 +18,7 @@
                 {% endif %}
 
                 {% csrf_token %}
-                
+
                 <div class="mb-3">
                     <label for="username">Username:</label>
                     <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
@@ -28,18 +28,19 @@
                 <div class="mb-3">
                     <label for="password1">Password:</label>
                     <input type="password" name="password1" id="password1" class="form-control" placeholder="Write your password">
-                    {{ form.password1.errors }}
+                    <!-- Mostrar errores de contraseña -->
+                    <div id="password-error" class="text-danger"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password2">Confirm your password:</label>
                     <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm your password">
-                    {{ form.password2.errors }}
+                    <!-- Mostrar error de coincidencia de contraseña -->
+                    <div id="password-match-error" class="text-danger"></div>
                 </div>
 
-                <button class="btn btn-primary">
-                    Signup
-                </button>
+                <button class="btn btn-primary">Signup</button>                
+
             </form>
         </div>
     </div>
