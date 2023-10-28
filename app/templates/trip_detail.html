@@ -3,27 +3,36 @@
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1 class="text-secondary text_primary">{{trip.startingPlace}}</h1>
+        <div class="col-md-8 offset-md-2 mt-5">
+            <h1 class="text-center">Detalles del Viaje</h1>
 
-            {{error}}
+            <div class="card card-body">
+                <h3>{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
+                <p>Salida: {{ trip.departureTime }}</p>
+                <p>Fecha: {{ trip.travelDate }}</p>
+                <p>Plazas disponibles: {{ trip.numseatsfree }}</p>
+                <p>Detalles: {{ trip.details }}</p>
 
-            <form method="POST">
-                {% csrf_token %}
-                {{form.as_p}}
-                <!--<button class="btn btn-primary">
-                    Update
-                </button>--> 
-            </form> 
+                {% if is_owner %}
+                    <p>Creador del Viaje</p>
+                {% elif is_passenger %}
+                    <p>Ya te uniste a este viaje</p>
+                {% else %}
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Unirme</button>
+                    </form>
+                {% endif %}
 
-            <div class="mt-5 d-flex">                   
-                <form action="{% url 'delete_trip' trip.id %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn-danger">
-                        Delete
-                    </button>
+                {% if is_owner %}
+                    <!-- Mostrar el formulario de edición -->
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                {% endif %}
             </div>
-            </form>
         </div>
     </div>
 </main>

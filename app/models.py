@@ -40,6 +40,8 @@ class Trip(models.Model):
 
     vehiculo_disponible = models.ForeignKey('Vehiculo', on_delete=models.SET_NULL, blank=True, null=True, default='Sin vehículo') 
     
+    passengers = models.ManyToManyField(User, related_name='trips_joined', blank=True)
+
     created = models.DateTimeField(auto_now_add = True)
     editionDate = models.DateTimeField(null = True, blank=True)
     completed = models.BooleanField(default=False)
