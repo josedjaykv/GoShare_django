@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-4 offset-md-4 mt-5 container_form">
             <form method="POST" class="card card-body">
-                <h1 class="text-center text_primary">Signup</h1>
+                <h1 class="text-center">Signup</h1>
                 {{error}}
             
                 {% csrf_token %}
@@ -13,16 +13,19 @@
                 <div class="mb-3">
                     <label for="username">Username:</label>
                     <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
+                    {{ form.username.errors }}
                 </div>
 
                 <div class="mb-3">
                     <label for="password1">Password:</label>
                     <input type="password" name="password1" id="password1" class="form-control" placeholder="Write your password">
+                    {{ form.password1.errors }}
                 </div>
 
                 <div class="mb-3">
                     <label for="password2">Confirm your password:</label>
                     <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm your password">
+                    {{ form.password2.errors }}
                 </div>
 
                 <button class="btn btn-primary">
