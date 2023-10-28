@@ -31,7 +31,13 @@
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
+                    <!-- Mostrar el botón de eliminar -->
+                    <form action="{% url 'delete_trip' trip.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Eliminar</button>
+                    </form>
                 {% endif %}
+
             </div>
         </div>
     </div>
