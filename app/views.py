@@ -8,37 +8,28 @@ from .models import Vehiculo, Trip
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib import messages
 
 # Create your views here.
 
 def home(request):
     return render(request, 'home.html')
-
+    
 def signup(request):
-    if request.method == 'GET':
-        return render(request, 'signup.html', {
-            'form': UserCreationForm
-        })
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('trips')
+        else:
+            # Verificar si las contraseñas no coinciden y agregar un mensaje de error
+            if form.errors.get('password2') and "password_mismatch" in form.errors.get('password2'):
+                messages.error(request, "Las contraseñas no coinciden.")
     else:
-        # si el método es post (Obteniendo datos del usuario para postearlos)
-        if request.POST['password1'] == request.POST['password2']:
-            # register user
-            try:
-                # aquí estamos creando el usuario con el username y password
-                # return HttpResponse('Usuario creado correctamente')
-                user = User.objects.create_user(
-                    username=request.POST['username'], password=request.POST['password1'])
-                user.save()
-                # para crear cookie del login usamos el método login
-                login(request, user)
-                return redirect('trips')
-            except IntegrityError:
-                return render(request, 'signup.html', {
-                    'error': "El nombre de usuario ya está en uso",
-                })
-        return render(request, 'signup.html', {
-            'error': "Las contraseñas no coiciden",
-        })
+        form = UserCreationForm()
+
+    return render(request, 'signup.html', {'form': form})
 
 @login_required
 def vehiculos(request):
@@ -146,11 +137,10 @@ def trips(request):
 def my_trips(request):
     # solo los vehiculos del usuario actual que no están completadas
     mytrips = Trip.objects.filter(user=request.user)
-    style = 'primary'
     print(trips)
     
     return render(request, 'trips.html', {
-        'mytrips':trips
+        'mytrips':mytrips
     })
 
 @login_required
