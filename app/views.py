@@ -221,6 +221,22 @@ def join_trip(request, trip_id):
     return redirect('trips')
 
 @login_required
+def leave_trip(request, trip_id):
+    # Obtén el viaje
+    trip = get_object_or_404(Trip, pk=trip_id)
+
+    # Verifica si el usuario actual es un pasajero del viaje
+    if request.user in trip.passengers.all():
+        # Elimina al usuario de la lista de pasajeros
+        trip.passengers.remove(request.user)
+        
+        # Actualiza numseatsfree
+        trip.numseatsfree += 1
+        trip.save()
+
+    return redirect('trip_detail', trip_id=trip_id)
+
+@login_required
 def delete_trip(request, trip_id):
     trip = get_object_or_404(Trip, pk = trip_id, user = request.user)
     if request.method == 'POST':
