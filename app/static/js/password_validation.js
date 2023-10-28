@@ -51,4 +51,28 @@ $(document).ready(function() {
         checkPasswordMatch();
     });
 
+
+    function toggleSignupButton() {
+        // Obtén los campos de contraseña y los mensajes de error
+        var password1 = $("#password1").val();
+        var password2 = $("#password2").val();
+        var passwordErrors = $("#password-error").text();
+        var passwordMatchError = $("#password-match-error").text();
+
+        // Verifica si hay errores en los campos
+        var hasErrors = passwordErrors.trim() !== "" || passwordMatchError.trim() !== "" || password1.length < 8;
+
+        // Habilita o deshabilita el botón según si hay errores
+        $("#signup-button").prop("disabled", hasErrors);
+    }
+
+    // Escucha los eventos de entrada en los campos y los mensajes de error
+    $("#password1, #password2, #password-error, #password-match-error").on("input", function() {
+        toggleSignupButton();
+    });
+
+    // Ejecuta la validación al cargar la página
+    toggleSignupButton();
+
+
 });
