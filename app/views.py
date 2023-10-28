@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
+from django.db.models import Count
 
 # Create your views here.
 
@@ -129,14 +130,20 @@ def delete_vehiculo(request, vehiculo_id):
 def trips(request):
     # Obtén todos los viajes excepto los del usuario actual
     trips = Trip.objects.filter(~Q(user=request.user))
-    
+
     # Obtén los viajes del usuario actual
-    mytrips = Trip.objects.filter(user=request.user)      
+    mytrips = Trip.objects.filter(user=request.user)
     
+    # Calcula la cantidad de asientos ocupados para cada viaje
+    trips_with_occupied_seats = trips.annotate(
+        occupied_seats=Count('passengers')
+    )
+
     return render(request, 'trips.html', {
-        'mytrips':mytrips,
-        'trips':trips
+        'mytrips': mytrips,
+        'trips': trips_with_occupied_seats,
     })
+
 
 @login_required
 def my_trips(request):
@@ -242,6 +249,17 @@ def delete_trip(request, trip_id):
     if request.method == 'POST':
         trip.delete()
         return redirect('trips')
+    
+@login_required
+def finalize_trip(request, trip_id):
+    trip = get_object_or_404(Trip, pk=trip_id)
+
+    if request.user == trip.user and trip.numseatsfree == 0:
+        # El usuario es el creador del viaje y todos los asientos están ocupados
+        trip.completed = True
+        trip.save()
+
+    return redirect('trip_detail', trip_id=trip.id)
 
 
   
