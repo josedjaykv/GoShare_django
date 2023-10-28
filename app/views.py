@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
+from django.http import HttpResponseBadRequest
 
 # Create your views here.
 
@@ -204,14 +205,20 @@ def trip_detail(request, trip_id):
     })
 
 
-@login_required
 def join_trip(request, trip_id):
+    # Obtiene el viaje al que el usuario desea unirse
     trip = get_object_or_404(Trip, pk=trip_id)
 
-    # Agrega al usuario actual a la lista de pasajeros del viaje
-    trip.passengers.add(request.user)
+    # Verifica si hay asientos disponibles
+    if trip.numseatsfree <= 0:
+        return HttpResponseBadRequest("No hay asientos disponibles en este viaje.")
 
-    return redirect('trip_detail', trip_id=trip_id)
+    # Agrega al usuario actual a la lista de pasajeros y disminuye numseatsfree
+    trip.passengers.add(request.user)
+    trip.numseatsfree -= 1
+    trip.save()
+
+    return redirect('trips')
 
 @login_required
 def delete_trip(request, trip_id):

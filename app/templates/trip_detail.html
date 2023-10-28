@@ -18,9 +18,13 @@
                 {% elif is_passenger %}
                     <p>Ya te uniste a este viaje</p>
                 {% else %}
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'join_trip' trip.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">Unirme</button>
+                        {% if trip.numseatsfree > 0 %}
+                            <button class="btn btn-primary" type="submit" id="join-button">Unirme</button>
+                        {% else %}
+                            <p class="text-danger">No hay asientos disponibles.</p>
+                        {% endif %}
                     </form>
                 {% endif %}
 
@@ -42,4 +46,24 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtén una referencia al botón "Unirme"
+        var joinButton = document.getElementById('join-button');
+
+        // Agrega un controlador de eventos clic al botón
+        joinButton.addEventListener('click', function() {
+            // Utiliza el cuadro de diálogo de confirmación
+            var confirmed = confirm("¿Estás seguro de que deseas unirte a este viaje?");
+            
+            // Si el usuario confirmó, redirige al usuario a 'my_trips'
+            if (confirmed) {
+                // Redirige al usuario a 'my_trips'
+                window.location.href = '{% url "my_trips" %}';
+            }
+        });
+    });
+</script>
+
 {% endblock %}
