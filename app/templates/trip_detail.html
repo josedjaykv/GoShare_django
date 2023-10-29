@@ -3,28 +3,117 @@
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1 class="text-secondary">{{trip.startingPlace}}</h1>
+        <div class="col-md-8 offset-md-2 mt-5">
+            <h1 class="text-center">Detalles del Viaje</h1>
 
-            {{error}}
+            <div class="card card-body">
 
-            <form method="POST">
-                {% csrf_token %}
-                {{form.as_p}}
-                <!--<button class="btn btn-primary">
-                    Update
-                </button>--> 
-            </form> 
+                {% if trip.completed %}
+                <h2 class="text-center text-success">Este viaje ha sido finalizado</h2>
+                <h3>Desde:</h3>
+                <ul>
+                    <li>{{trip.startingPlace}}</li>
+                </ul>
+                <h3>Hasta: </h3>
+                <ul>
+                    <li>{{trip.arrivalPlace}}</li>
+                </ul>
+                <h3>Pasajeros:</h3>
+                <ul>
+                    {% for passenger in trip.passengers.all %}
+                    <li>{{ passenger.username }}</li>
+                    {% endfor %}
+                </ul>
+                <h3>Fecha:</h3>
+                <ul>
+                    <li>{{trip.travelDate}}</li>
+                </ul>
+                <h3> Vehiculo </h3>
+                <ul>
+                    <li>
+                        <p>Marca: {{trip.vehiculo_disponible.brand}}</p>                      
+                    </li>
+                    <li>
+                        <p>Modelo: {{trip.vehiculo_disponible.model}}</p>
+                    </li>
+                    <li>
+                        <p>Color: {{trip.vehiculo_disponible.color}}</p>
+                    </li>
+                    <li>
+                        <p>Placa: {{trip.vehiculo_disponible.plate}}</p>
+                    </li>
+                </ul>
 
-            <div class="mt-5 d-flex">                   
-                <form action="{% url 'delete_trip' trip.id %}" method="POST">
+                {% else %}
+                <h3>{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
+                <p>Salida: {{ trip.departureTime }}</p>
+                <p>Fecha: {{ trip.travelDate }}</p>
+                <p>Plazas disponibles: {{ trip.numseatsfree }}</p>
+                <p>Detalles: {{ trip.details }}</p>
+
+                {% if is_owner %}
+                <p>Creador del Viaje</p>
+                {% elif is_passenger %}
+                <p class="text-success text-center">Ya te uniste a este viaje</p>
+                {% else %}
+                <form method="POST" action="{% url 'join_trip' trip.id %}">
                     {% csrf_token %}
-                    <button class="btn btn-danger">
-                        Delete
-                    </button>
+                    {% if trip.numseatsfree > 0 %}
+                    <button class="btn btn-primary" type="submit" id="join-button">Unirme</button>
+                    {% else %}
+                    <p class="text-danger text-center">No hay asientos disponibles.</p>
+                    {% endif %}
+                </form>
+                {% endif %}
+
+                {% if user in trip.passengers.all %}
+                <a href="{% url 'leave_trip' trip.id %}" class="btn btn-danger">Salir</a>
+                {% endif %}
+
+                {% if is_owner %}
+                <!-- Mostrar el formulario de edición -->
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+                <!-- Mostrar el botón de eliminar -->
+                <form action="{% url 'delete_trip' trip.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Eliminar</button>
+                </form>
+                {% endif %}
+
+                {% if is_owner and trip.numseatsfree == 0 and not trip.completed %}
+                <form method="POST" action="{% url 'finalize_trip' trip.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Finalizar viaje</button>
+                </form>
+                {% endif %}
+                {% endif %}
+
             </div>
-            </form>
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtén una referencia al botón "Unirme"
+        var joinButton = document.getElementById('join-button');
+
+        // Agrega un controlador de eventos clic al botón
+        joinButton.addEventListener('click', function () {
+            // Utiliza el cuadro de diálogo de confirmación
+            var confirmed = confirm("¿Estás seguro de que deseas unirte a este viaje?");
+
+            // Si el usuario confirmó, redirige al usuario a 'my_trips'
+            if (confirmed) {
+                // Redirige al usuario a 'my_trips'
+                window.location.href = '{% url "my_trips" %}';
+            }
+        });
+    });
+</script>
+
 {% endblock %}

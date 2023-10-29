@@ -9,11 +9,15 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
+from django.http import HttpResponseBadRequest
+from django.db.models import Count
 
 # Create your views here.
 
 def home(request):
     return render(request, 'home.html')
+
+############################################# USUARIOS #############################################
     
 def signup(request):
     if request.method == 'POST':
@@ -31,6 +35,34 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form})
 
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('home')
+
+def signin(request):
+    if request.method == 'GET':
+        return render(request, 'signin.html', {
+            'form': AuthenticationForm
+        })
+    else:  # me están enviando datos
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
+
+        if user is None:
+            return render(request, 'signin.html', {
+                'form': AuthenticationForm,
+                'error': 'Nombre de usuario o contraseña incorrecto',
+            })
+        else:
+            login(request, user)
+            return redirect('trips')
+
+@login_required
+def profile(request):
+    return render(request, 'perfil.html') 
+    
+############################################# VEHICULOS #############################################
 @login_required
 def vehiculos(request):
     # solo los vehiculos del usuario actual
@@ -93,54 +125,33 @@ def delete_vehiculo(request, vehiculo_id):
         vehiculo.delete()
         return redirect('vehiculos')
 
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('home')
-
-def signin(request):
-    if request.method == 'GET':
-        return render(request, 'signin.html', {
-            'form': AuthenticationForm
-        })
-    else:  # me están enviando datos
-        user = authenticate(
-            request, username=request.POST['username'], password=request.POST['password'])
-
-        if user is None:
-            return render(request, 'signin.html', {
-                'form': AuthenticationForm,
-                'error': 'Nombre de usuario o contraseña incorrecto',
-            })
-        else:
-            login(request, user)
-            return redirect('trips')
-
-
-
-    
-        
+############################################# VIAJES #############################################
 @login_required
 def trips(request):
     # Obtén todos los viajes excepto los del usuario actual
     trips = Trip.objects.filter(~Q(user=request.user))
-    
+
     # Obtén los viajes del usuario actual
-    mytrips = Trip.objects.filter(user=request.user)      
+    mytrips = Trip.objects.filter(user=request.user)
     
+    # Calcula la cantidad de asientos ocupados para cada viaje
+    trips_with_occupied_seats = trips.annotate(
+        occupied_seats=Count('passengers')
+    )
+
     return render(request, 'trips.html', {
-        'mytrips':mytrips,
-        'trips':trips
+        'mytrips': mytrips,
+        'trips': trips_with_occupied_seats,
     })
+
 
 @login_required
 def my_trips(request):
-    # solo los vehiculos del usuario actual que no están completadas
     mytrips = Trip.objects.filter(user=request.user)
     print(trips)
     
-    return render(request, 'trips.html', {
-        'mytrips':mytrips
+    return render(request, 'my_trips.html', {
+        'mytrips':mytrips,
     })
 
 @login_required
@@ -169,26 +180,68 @@ def create_trip(request):
 
 @login_required
 def trip_detail(request, trip_id):
-    if request.method == 'GET':
-        # si la tarea existe la guarda si no muestra un error 404
-        trip = get_object_or_404(Trip, pk = trip_id, user = request.user)
-        form = TripForm(instance=trip, user=request.user)
-        return render(request, 'trip_detail.html', {
-            'trip':trip,
-            'form':form
-        })
-    else:
-        try:
-            trip = get_object_or_404(Trip, pk = trip_id, user = request.user)
-            form = TripForm(request.POST, instance=trip)
-            form.save()
+    trip = get_object_or_404(Trip, pk=trip_id)
+    passengers = trip.passengers.all()
+
+    # Comprueba si el usuario actual es el creador del viaje
+    is_owner = request.user == trip.user
+
+    # Comprueba si el usuario actual ya es pasajero en el viaje
+    is_passenger = request.user in passengers
+
+    if request.method == 'POST':
+        if is_owner:
+            # Si el usuario es el creador, permite la edición del viaje
+            form = TripForm(user=request.user, data=request.POST, instance=trip)
+            if form.is_valid():
+                form.save()
+                return redirect('trips')
+        elif not is_passenger:
+            # Si el usuario no es el creador ni un pasajero, permite unirse al viaje
+            trip.passengers.add(request.user)
             return redirect('trips')
-        except ValueError:
-            return render(request, 'trip_detail.html', {
-            'trip':trip,
-            'form':form,
-            'error': 'Error al actualizar, campos por completar'
-        })
+    else:
+        # Si es una solicitud GET, muestra la información del viaje
+        form = TripForm(user=request.user, instance=trip) if is_owner else None
+
+    return render(request, 'trip_detail.html', {
+        'trip': trip,
+        'form': form,
+        'is_owner': is_owner,
+        'is_passenger': is_passenger,
+    })
+
+
+def join_trip(request, trip_id):
+    # Obtiene el viaje al que el usuario desea unirse
+    trip = get_object_or_404(Trip, pk=trip_id)
+
+    # Verifica si hay asientos disponibles
+    if trip.numseatsfree <= 0:
+        return HttpResponseBadRequest("No hay asientos disponibles en este viaje.")
+
+    # Agrega al usuario actual a la lista de pasajeros y disminuye numseatsfree
+    trip.passengers.add(request.user)
+    trip.numseatsfree -= 1
+    trip.save()
+
+    return redirect('trips')
+
+@login_required
+def leave_trip(request, trip_id):
+    # Obtén el viaje
+    trip = get_object_or_404(Trip, pk=trip_id)
+
+    # Verifica si el usuario actual es un pasajero del viaje
+    if request.user in trip.passengers.all():
+        # Elimina al usuario de la lista de pasajeros
+        trip.passengers.remove(request.user)
+        
+        # Actualiza numseatsfree
+        trip.numseatsfree += 1
+        trip.save()
+
+    return redirect('trip_detail', trip_id=trip_id)
 
 @login_required
 def delete_trip(request, trip_id):
@@ -196,7 +249,17 @@ def delete_trip(request, trip_id):
     if request.method == 'POST':
         trip.delete()
         return redirect('trips')
+    
+@login_required
+def finalize_trip(request, trip_id):
+    trip = get_object_or_404(Trip, pk=trip_id)
+
+    if request.user == trip.user and trip.numseatsfree == 0:
+        # El usuario es el creador del viaje y todos los asientos están ocupados
+        trip.completed = True
+        trip.save()
+
+    return redirect('trip_detail', trip_id=trip.id)
 
 
-def profile(request):
-    return render(request, 'perfil.html')   
+  

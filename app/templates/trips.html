@@ -8,38 +8,50 @@
         <h1 class="text-center display-3 py-5 text_primary">Viajes disponibles</h1>
         <ul class="list-group grupo">
 
+
             {% for trip in mytrips %}
-            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
-                <header class="d-flex justify-content-between header_item_group">
-                    <h1 class="text-primary text_primary">{{trip.startingPlace}}</h1>
-                    <h4>{{trip.user.username}}</h4>
-                </header>
-                <hr style="border-color: black;">
-                <p>{{trip.arrivalPlace}}</p>
-                <p>{{trip.departureTime}}</p> 
-                <p>{{trip.travelDate}}</p>                
-                <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
-            </a>
+                {% if trip.completed == False %}
+                    <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                    <header class="d-flex justify-content-between header_item_group">
+                        <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
+                        <h4>{{ trip.user.username }}</h4>
+                    </header>
+                    <hr style="border-color: black;">
+                    <p>{{ trip.arrivalPlace }}</p>
+                    <p>{{ trip.departureTime }}</p> 
+                    <p>{{ trip.travelDate }}</p>                
+                    <p>{{ trip.vehiculo_disponible }} {{ trip.vehiculo_disponible.color }}</p>
+
+                    {% if trip.completed == True %}
+                                <p class="text-danger text-center">Este viaje ya ha finalizado</p>
+                    {% elif trip.numseatsfree == 0 %}
+                        <p class="text-danger text-center">Todos los asientos ya están reservados</p>
+                    {% endif %}
+                    </a>
+                {% endif %}
             {% endfor %}
 
             {% for trip in trips %}
-            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
-                <header class="d-flex justify-content-between">
-                    <h1 class="fw-bold">{{trip.startingPlace}}</h1>
-                    <h4>{{trip.user.username}}</h4>
-                
-                </header>
-                <hr style="border-color: black;">
-                <p>{{trip.arrivalPlace}}</p>
-                <p>{{trip.departureTime}}</p> 
-                <p>{{trip.travelDate}}</p>                
-                <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
-            </a>
+                {% if trip.completed == False %}
+                    <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                        <header class="d-flex justify-content-between">
+                            <h1 class="fw-bold">{{trip.startingPlace}}</h1>
+                            <h4>{{trip.user.username}}</h4>
+                        
+                        </header>
+                        <hr style="border-color: black;">
+                        <p>{{trip.arrivalPlace}}</p>
+                        <p>{{trip.departureTime}}</p> 
+                        <p>{{trip.travelDate}}</p>                
+                        <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
+                    </a>
+                {% endif %}
             {% endfor %}
         </ul>
 
     </div>
 </main>
 <link rel="stylesheet" href="{% static 'css/trips.css' %}">
+
 
 {% endblock %}

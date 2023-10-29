@@ -6,7 +6,12 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+
+    # Usuarios
     path('signup/', views.signup, name='signup'),
+    path('logout/', views.signout, name='logout'),
+    path('signin/', views.signin, name='signin'),
+    path('profile/', views.profile, name='profile'),
 
     # Vehículos
     path('vehiculos/', views.vehiculos, name='vehiculos'),
@@ -20,9 +25,8 @@ urlpatterns = [
     path('trips/create/', views.create_trip, name='create_trip'),
     path('trips/<int:trip_id>/', views.trip_detail, name='trip_detail'),
     path('trips/<int:trip_id>/delete/', views.delete_trip, name='delete_trip'),
-
-
-    path('logout/', views.signout, name='logout'),
-    path('signin/', views.signin, name='signin'),
-    path('profile/', views.profile, name='profile'),
+    path('trips/<int:trip_id>/join/', views.join_trip, name='join_trip'),
+    path('trips/<int:trip_id>/leave/', views.leave_trip, name='leave_trip'),    
+    path('trip/finalize/<int:trip_id>/', views.finalize_trip, name='finalize_trip'),
+   
 ]
