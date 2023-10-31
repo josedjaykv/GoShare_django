@@ -1,0 +1,33 @@
+.container-text-home{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 700;
+    
+
+}
+
+.container-home{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 5%;
+    margin-top:5%;
+}
+
+.tittle-home{
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5%;
+    margin-top:5%;
+}
+.subtittle-home{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2%;
+    margin-top:2%;
+}
