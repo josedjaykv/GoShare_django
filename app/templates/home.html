@@ -2,9 +2,9 @@
 
 {% block content %}
 <main class="container py-5">
-    <section class="card card-body">
-        <h1 class="display-1 text-center">GoShare</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam excepturi consectetur odio sed aspernatur numquam aut repellendus voluptatum nulla odit ad quas reiciendis dolorem incidunt, perferendis, eos autem veritatis. Repellendus!</p>
+    <section class="card card-body bg-secondary">
+        <h1 class="display-1 text-center ">GoShare</h1>
+        <p></p>
         
         <div class="text-center">
             {% if user.is_authenticated %}
@@ -28,10 +28,10 @@
                 </a>
             {% else %}
                 <a class="btn btn-primary" href="/signin/">
-                    Signin
+                    Login
                 </a>
                 <a class="btn btn-secondary" href="/signup/">
-                    Signup
+                    Sign Up
                 </a>
             {% endif %}            
         </div>

@@ -20,3 +20,37 @@ body{
     font-size: 14px;
 }
 
+.bg-primary{
+    background-color: rgb(248, 240, 229) !important;
+}
+
+.bg-secondary{
+    background-color: rgb(234, 219, 200) !important;
+}
+
+.bg-tertiary{
+    background-color: rgb(218, 192, 163) !important;
+}
+
+.bg-quaternary{
+    background-color: rgb(15, 44, 89)!important;
+    font-size: large;
+    font-weight: 600;
+}
+
+.color-primary{
+    color: rgb(248, 240, 229) !important;
+}
+
+.color-secondary{
+    color: rgb(234, 219, 200) !important;
+}
+
+.color-tertiary{
+    color: rgb(218, 192, 163) !important;
+}
+
+.color-quaternary{
+    color: rgb(15, 44, 89)!important;
+}
+
