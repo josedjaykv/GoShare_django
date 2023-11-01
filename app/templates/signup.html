@@ -1,38 +1,39 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4 mt-5 container_form">
-            <form method="POST" class="card card-body">
-                <h1 class="text-center">Signup</h1>
+        <div class="col-md-4 offset-md-4 mt-5 container_form ">
+            <form method="POST" class="card card-body container-registro bg-secondary">
+                <h1 class="text-center tittle-registro">Registro</h1>
                
                 {% csrf_token %}
 
                 <div class="mb-3">
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Write your username">
+                    <label for="username color-quaternary">Usuario:</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Nombre de Usuario">
                     <div class="text-danger">{{ form.username.errors }}</div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="password1">Password:</label>
-                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Write your password">
+                    <label for="password1 color-quaternary">Contraseña:</label>
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña">
                     <!-- Mostrar errores de contraseña -->
                     <div id="password-error" class="text-danger"></div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="password2">Confirm your password:</label>
-                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm your password">
+                    <label for="password2">Confirmar Contraseña:</label>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Vuelve a escribir tu contraseña">
                     <!-- Mostrar error de coincidencia de contraseña -->
                     <div id="password-match-error" class="text-danger"></div>
                 </div>
 
-                <button id="signup-button" class="btn btn-primary">Signup</button>                
+                <button id="signup-button" class="btn bg-quaternary color-secondary">Registrarse</button>                
 
             </form>
         </div>
     </div>
 </main>
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
 {% endblock %}
