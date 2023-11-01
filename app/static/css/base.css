@@ -34,8 +34,6 @@ body{
 
 .bg-quaternary{
     background-color: rgb(15, 44, 89)!important;
-    font-size: large;
-    font-weight: 600;
 }
 
 .color-primary{
@@ -54,3 +52,7 @@ body{
     color: rgb(15, 44, 89)!important;
 }
 
+.boton-quaternary{
+    background-color: rgb(15, 44, 89)!important;
+    color: rgb(248, 240, 229) !important;
+}
