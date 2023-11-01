@@ -23,11 +23,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto">                    
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a href="/trips" class="nav-link color-primary">Viajes</a>
                     </li>
-                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a href="/trips/mine/" class="nav-link color-primary">Mis Viajes</a>
                     </li>

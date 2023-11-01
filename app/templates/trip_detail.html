@@ -46,10 +46,14 @@
 
                 {% else %}
                 <h3>{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
+                <p>Creador del viaje: {{ trip.user.username }}</p>
                 <p>Salida: {{ trip.departureTime }}</p>
                 <p>Fecha: {{ trip.travelDate }}</p>
                 <p>Plazas disponibles: {{ trip.numseatsfree }}</p>
+                <p>Vehiculo: {{ trip.vehiculo_disponible }} {{trip.vehiculo_disponible.color}} {{ trip.vehiculo_disponible.plate }}</p>                
+                {% if trip.details %}
                 <p>Detalles: {{ trip.details }}</p>
+                {% endif %}
 
                 {% if is_owner %}
                 <p>Creador del Viaje</p>

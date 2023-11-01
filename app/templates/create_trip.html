@@ -8,18 +8,26 @@
 
             {{error}}
 
-            <form action="/trips/create/" method="POST" class="card card-body">
+            <form action="/trips/create/" method="POST" class="card card-body" id="create-trip-form">
                 {% csrf_token %}
 
                 {{form.as_p}}
 
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" type="button" onclick="showConfirmation()">
                     Save
                 </button>
-
             </form>           
          
         </div>
     </div>
 </main>
+
+<script>
+    function showConfirmation() {
+        if (confirm("¿Estás seguro de que deseas crear este viaje?")) {
+            // Si el usuario confirma, envía el formulario
+            document.getElementById('create-trip-form').submit();
+        }
+    }
+</script>
 {% endblock %}
