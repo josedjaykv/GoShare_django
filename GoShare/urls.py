@@ -14,10 +14,10 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
 
     # Vehículos
-    path('vehiculos/', views.vehiculos, name='vehiculos'),
-    path('vehiculos/create/', views.create_vehiculo, name='create_vehiculo'),
-    path('vehiculos/<int:vehiculo_id>/', views.vehiculo_detail, name='vehiculo_detail'),
-    path('vehiculos/<int:vehiculo_id>/delete/', views.delete_vehiculo, name='delete_vehiculo'),
+    path('vehicles/', views.vehiculos, name='vehiculos'),
+    path('vehicles/create/', views.create_vehiculo, name='create_vehiculo'),
+    path('vehicles/<int:vehiculo_id>/', views.vehiculo_detail, name='vehiculo_detail'),
+    path('vehicles/<int:vehiculo_id>/delete/', views.delete_vehiculo, name='delete_vehiculo'),
 
     # Viajes
     path('trips/', views.trips, name='trips'),
