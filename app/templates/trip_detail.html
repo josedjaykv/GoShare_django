@@ -49,7 +49,7 @@
                 {% if is_passenger %}
                     {% with rated_driver=rated_driver %}
                         {% if not rated_driver %}
-                            <h2>Califica al conductor</h2>
+                            <h2>¿De 0 a 5 cómo estuvo tu viaje?</h2>
                             <form method="POST" action="{% url 'rate_driver' trip.id %}">
                                 {% csrf_token %}
                                 {{ ratinform.rating.label_tag }}
@@ -57,7 +57,7 @@
                                 <button type="submit" class="btn btn-primary">Calificar</button>
                             </form>
                         {% else %}
-                            <h2 class="text-success">Has calificado a este conductor</h2>
+                            <h2 class="text-success">Viaje calificado</h2>
                             <p>Tu calificación: {{ rated_driver.rating }}</p>
                         {% endif %}
                     {% endwith %}
