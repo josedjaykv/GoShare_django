@@ -11,6 +11,7 @@ COLOR_CHOISES = [
         ('amarillo', 'Amarillo')        
     ]
 
+
 # Create your models here.
 class Vehiculo(models.Model):
     brand = models.CharField(max_length=100)   
@@ -47,3 +48,11 @@ class Trip(models.Model):
     def __str__(self):
         return f'Viaje de {self.user.username} desde {self.startingPlace} hasta {self.arrivalPlace}'
     
+class TripRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    driver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rated_drivers')
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ('user', 'trip', 'driver')

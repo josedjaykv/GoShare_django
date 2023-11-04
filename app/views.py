@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import VehiculoForm, TripForm
-from .models import Vehiculo, Trip
+from .forms import VehiculoForm, TripForm, TripRatingForm
+from .models import Vehiculo, Trip, TripRating
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -145,13 +145,16 @@ def trips(request):
     })
 
 
-@login_required
 def my_trips(request):
+    # Obtén los viajes creados por el usuario actual
     mytrips = Trip.objects.filter(user=request.user)
-    print(trips)
     
+    # Obtén los viajes en los que el usuario ha estado como pasajero
+    trips_as_passenger = Trip.objects.filter(passengers=request.user)
+
     return render(request, 'my_trips.html', {
-        'mytrips':mytrips,
+        'mytrips': mytrips,
+        'trips_as_passenger': trips_as_passenger,
     })
 
 @login_required
@@ -189,6 +192,9 @@ def trip_detail(request, trip_id):
     # Comprueba si el usuario actual ya es pasajero en el viaje
     is_passenger = request.user in passengers
 
+    # Obtén la calificación del conductor (rated_driver) para este viaje
+    rated_driver = TripRating.objects.filter(user=request.user, trip=trip).first()
+
     if request.method == 'POST':
         if is_owner:
             # Si el usuario es el creador, permite la edición del viaje
@@ -203,12 +209,16 @@ def trip_detail(request, trip_id):
     else:
         # Si es una solicitud GET, muestra la información del viaje
         form = TripForm(user=request.user, instance=trip) if is_owner else None
+        ratinform = TripRatingForm(request.POST)
 
+    
     return render(request, 'trip_detail.html', {
         'trip': trip,
         'form': form,
+        'ratinform': ratinform,
         'is_owner': is_owner,
         'is_passenger': is_passenger,
+        'rated_driver': rated_driver, 
     })
 
 
@@ -261,5 +271,34 @@ def finalize_trip(request, trip_id):
 
     return redirect('trip_detail', trip_id=trip.id)
 
+@login_required
+def rate_driver(request, trip_id):
+    trip = get_object_or_404(Trip, pk=trip_id)
 
-  
+    # Verificar si el usuario ya calificó al conductor para este viaje
+    existing_rating = TripRating.objects.filter(user=request.user, trip=trip).first()
+
+    if existing_rating:
+        return redirect('trip_detail', trip_id=trip.id)
+
+    if request.method == 'POST':
+        form = TripRatingForm(request.POST)
+        if form.is_valid():
+            rating_value = form.cleaned_data['rating']
+
+            # Crear una instancia de TripRating y guardarla en la base de datos
+            rating = TripRating()
+            rating.user = request.user
+            rating.trip = trip
+            rating.driver = trip.user
+            rating.rating = rating_value
+            rating.save()
+
+            return redirect('trip_detail', trip_id=trip.id)
+    else:
+        form = TripRatingForm()
+
+    return render(request, 'trip_detail.html', {
+        'trip': trip,
+        'form': form,
+    })

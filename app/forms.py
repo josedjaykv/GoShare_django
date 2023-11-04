@@ -1,5 +1,5 @@
 from django import forms
-from .models import Vehiculo, Trip
+from .models import Vehiculo, Trip, TripRating
 
 class VehiculoForm(forms.ModelForm):    
     class Meta:
@@ -32,4 +32,12 @@ class TripForm(forms.ModelForm):
             'travelDate': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2021-10-10'}),
             'numseatsfree': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
             'vehiculo_disponible': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+class TripRatingForm(forms.ModelForm):
+    class Meta:
+        model = TripRating
+        fields = ['rating']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'step': '1', 'min': '0', 'max': '5'}),
         }

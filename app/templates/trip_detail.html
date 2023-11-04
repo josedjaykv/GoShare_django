@@ -9,7 +9,8 @@
             <div class="card card-body">
 
                 {% if trip.completed %}
-                <h2 class="text-center text-success">Este viaje ha sido finalizado</h2>
+                <h2 class="text-center text-success">Este viaje ha sido finalizado</h2>             
+
                 <h3>Desde:</h3>
                 <ul>
                     <li>{{trip.startingPlace}}</li>
@@ -43,6 +44,24 @@
                         <p>Placa: {{trip.vehiculo_disponible.plate}}</p>
                     </li>
                 </ul>
+
+                <!-- Verifica si el usuario ya calificó al conductor -->
+                {% if is_passenger %}
+                    {% with rated_driver=rated_driver %}
+                        {% if not rated_driver %}
+                            <h2>Califica al conductor</h2>
+                            <form method="POST" action="{% url 'rate_driver' trip.id %}">
+                                {% csrf_token %}
+                                {{ ratinform.rating.label_tag }}
+                                {{ ratinform.rating }}
+                                <button type="submit" class="btn btn-primary">Calificar</button>
+                            </form>
+                        {% else %}
+                            <h2 class="text-success">Has calificado a este conductor</h2>
+                            <p>Tu calificación: {{ rated_driver.rating }}</p>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
 
                 {% else %}
                 <h3>{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
@@ -95,11 +114,11 @@
                 </form>
                 {% endif %}
                 {% endif %}
-
             </div>
         </div>
     </div>
 </main>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
