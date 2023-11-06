@@ -1,8 +1,5 @@
-Claro, puedo ayudarte a crear un README para tu aplicación web GoShare. Aquí tienes un ejemplo de cómo podría ser ese README:
 
----
-
-# GoShare - Tu Plataforma de Compartir Contenidos
+# GoShare - Tu Plataforma para compartir viajes
 
 **GoShare** es una innovadora aplicación web diseñada para permitir a los usuarios compartir contenido fácilmente con otras personas. Ya sea que desees compartir archivos, enlaces, notas o incluso colaborar en proyectos en línea, **GoShare** es la herramienta perfecta.
 
