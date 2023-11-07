@@ -1,5 +1,5 @@
 
-# GoShare - Tu Plataforma para Compartir Viajes
+# GoShare - Tu Plataforma Preferida para Compartir Viajes
 
 **GoShare** es una innovadora aplicación web diseñada para permitir a los usuarios compartir sus vehículos fácilmente con otras personas. Ya sea que desees llevar a tus amigos o ayudar a un compañero que necesite transporte, **GoShare** es la herramienta perfecta.
 
