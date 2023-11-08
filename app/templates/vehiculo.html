@@ -4,7 +4,7 @@
 
 <main class="container">
     <div class="col-md-6 offset-md-3">
-        <h1 class="text-center display-3 py-5">Mis vehículos</h1>
+        <h1 class="text-center display-3 py-5 color-quaternary fw-bold">Mis vehículos</h1>
         <ul class="list-group">
             {% for vehiculo in vehiculos %}
             <a class="list-group-item" href="{% url 'vehiculo_detail' vehiculo.id %}">                

@@ -1,0 +1,13 @@
+.contenedor_botones{
+    display: flex;
+    justify-content:space-around;
+    display: row;
+}
+
+.row.bg-secondary {
+    margin: 0 auto;
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    margin-top: 3rem;
+  }
