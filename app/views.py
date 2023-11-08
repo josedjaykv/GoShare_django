@@ -171,7 +171,7 @@ def create_trip(request):
             return redirect('vehiculos')
         else:
             return render(request, 'create_trip.html', {
-                'form': TripForm,
+                'form': form,
                 'error': "Por favor provee datos validos"
             })
     else:
