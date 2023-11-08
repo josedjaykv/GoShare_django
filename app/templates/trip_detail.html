@@ -126,17 +126,23 @@
         var joinButton = document.getElementById('join-button');
 
         // Agrega un controlador de eventos clic al botón
-        joinButton.addEventListener('click', function () {
+        joinButton.addEventListener('click', function (event) {
             // Utiliza el cuadro de diálogo de confirmación
             var confirmed = confirm("¿Estás seguro de que deseas unirte a este viaje?");
 
             // Si el usuario confirmó, redirige al usuario a 'my_trips'
             if (confirmed) {
-                // Redirige al usuario a 'my_trips'
-                window.location.href = '{% url "my_trips" %}';
+                // Continuar con la redirección
+                return true;
+            } else {
+                // Prevenir la acción predeterminada si el usuario cancela
+                event.preventDefault();
+                return false;
             }
         });
     });
 </script>
+
+
 
 {% endblock %}

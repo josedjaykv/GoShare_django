@@ -19,7 +19,7 @@
                 {{ form.numseatsfree.label_tag }} {{ form.numseatsfree }}<br>
                 {{ form.vehiculo_disponible.label_tag }} {{ form.vehiculo_disponible }}<br>
 
-                <button class="btn boton-quaternary" type="button" onclick="showConfirmation()">
+                <button class="btn boton-quaternary" id="create_button">
                     Crear Viaje
                 </button>
             </form>           
@@ -29,11 +29,25 @@
 </main>
 
 <script>
-    function showConfirmation() {
-        if (confirm("¿Estás seguro de que deseas crear este viaje?")) {
-            // Si el usuario confirma, envía el formulario
-            document.getElementById('create-trip-form').submit();
-        }
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtén una referencia al botón "Unirme"
+        var joinButton = document.getElementById('create_button');
+
+        // Agrega un controlador de eventos clic al botón
+        joinButton.addEventListener('click', function (event) {
+            // Utiliza el cuadro de diálogo de confirmación
+            var confirmed = confirm("¿Estás seguro de que deseas crear este viaje?");
+
+            // Si el usuario confirmó, redirige al usuario a 'my_trips'
+            if (confirmed) {
+                // Continuar con la redirección
+                return true;
+            } else {
+                // Prevenir la acción predeterminada si el usuario cancela
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
 </script>
 {% endblock %}
