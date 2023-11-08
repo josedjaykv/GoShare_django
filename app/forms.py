@@ -7,10 +7,17 @@ class VehiculoForm(forms.ModelForm):
         fields = ['brand', 'model', 'plate', 'color',]
 
         widgets = {
-            'brand': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write a brand'}),
-            'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write a model'}),
-            'plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write the plate of your car'}),
+            'brand': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Chevrolet'}),
+            'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Spark GT'}),
+            'plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ' EJ: ABC-123'}),
             'color': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+        labels = {
+            'brand': 'Marca',
+            'model': 'Modelo',
+            'plate': 'Placa',
+            'color': 'Color',
         }
 
 class TripForm(forms.ModelForm):
@@ -28,10 +35,20 @@ class TripForm(forms.ModelForm):
             'startingPlace': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Estación exposiciones'}),
             'arrivalPlace': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Universidad EIA'}),
             'details': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ej: Manejo muy rápido, me dicen el rayo, o también Verstappen'}),
-            'departureTime': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 12:00'}),
-            'travelDate': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2021-10-10'}),
+            'departureTime': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 12:00', 'type' : 'time'}),
+            'travelDate': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2021-10-10', 'type' : 'date'}),
             'numseatsfree': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
             'vehiculo_disponible': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+        labels = {
+            'startingPlace': 'Lugar de Partida',
+            'arrivalPlace': 'Lugar de Llegada',
+            'details': 'Detalles',
+            'departureTime': 'Hora de Salida',
+            'travelDate': 'Fecha de Viaje',
+            'numseatsfree': 'Número de Asientos Libres',
+            'vehiculo_disponible': 'Vehículo Disponible',
         }
 
 class TripRatingForm(forms.ModelForm):

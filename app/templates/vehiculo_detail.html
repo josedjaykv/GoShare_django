@@ -1,32 +1,45 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
 <main class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <h1 class="text-secondary">{{vehiculo.model}}</h1>
+  <div class="row bg-secondary rounded">
+    <div class="rounded mt-2 mb-2">
+      <h1 class="text-secondary text-center color-quaternary fw-bold">{{vehiculo.model}}</h1>
 
-            {{error}}
+      {{error}}
 
-            <form method="POST">
-                {% csrf_token %}
-                {{form.as_p}}
-                <button class="btn btn-primary">
-                    Update
-                </button>
-            </form>
+      
+        <form method="POST" id="update-form">
+          {% csrf_token %}
+          {{form.as_p}}
+        </form>
 
-            <div class="mt-5 d-flex">                   
-                <form action="{% url 'delete_vehiculo' vehiculo.id %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn-danger" id="delete_button">
-                        Delete
-                    </button>
-            </div>
-            </form>
+        <div class="contenedor_botones">
+            
+          <button class="btn btn-primary" onclick="submitForm()">
+            Update
+          </button>
+
+          <form action="{% url 'delete_vehiculo' vehiculo.id %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger" id="delete_button">
+              Delete
+            </button>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </main>
+<link rel="stylesheet" href="{% static 'css/vehiculos_detail.css' %}">
+<script>
+  function submitForm() {
+    document.getElementById('update-form').submit();
+  }
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

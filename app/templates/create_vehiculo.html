@@ -3,18 +3,22 @@
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4 mt-4">
-            <h1 class="text_primary">Añadir vehículo</h1>
+        <div class="col-md-4 offset-md-4 mt-4 bg-secondary rounded">
+            <h1 class="text_primary text-center color-quaternary fw-bold">Añadir Vehículo</h1>
 
             {{error}}
 
-            <form action="/vehicles/create/" method="POST" class="card card-body">
+            <form action="/vehicles/create/" method="POST" class="card card-body bg-secondary mb-2">
                 {% csrf_token %}
 
-                {{form.as_p}}
+                {{ form.model.label_tag }} {{ form.model }}<br>
+                {{ form.brand.label_tag }} {{ form.brand }}<br>
+                {{form.plate.label_tag}} {{form.plate}}<br>
+                {{ form.color.label_tag }} {{ form.color }}<br>
+                
 
-                <button class="btn btn-primary" id="create-button">
-                    Save
+                <button class="btn boton-quaternary" id="create-button">
+                    Añadir Vehículo
                 </button>
 
             </form>

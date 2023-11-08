@@ -3,18 +3,24 @@
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-4 offset-md-4 mt-4">
-            <h1 class="text_primary"> Create trip</h1>
+        <div class="col-md-4 offset-md-4 mt-4 bg-secondary rounded mb-4">
+            <h1 class="text_primary text-center color-quaternary "> Crear Viaje</h1>
 
             {{error}}
 
-            <form action="/trips/create/" method="POST" class="card card-body" id="create-trip-form">
+            <form action="/trips/create/" method="POST" class="card card-body bg-secondary mb-2" id="create-trip-form">
                 {% csrf_token %}
 
-                {{form.as_p}}
+                {{ form.startingPlace.label_tag }} {{ form.startingPlace }}<br>
+                {{ form.arrivalPlace.label_tag }} {{ form.arrivalPlace }}<br>
+                {{ form.details.label_tag }} {{ form.details }}<br>
+                {{ form.departureTime.label_tag }} {{ form.departureTime }}<br>
+                {{ form.travelDate.label_tag }} {{ form.travelDate }}<br>
+                {{ form.numseatsfree.label_tag }} {{ form.numseatsfree }}<br>
+                {{ form.vehiculo_disponible.label_tag }} {{ form.vehiculo_disponible }}<br>
 
-                <button class="btn btn-primary" id="create_button"">
-                    Save
+                <button class="btn boton-quaternary" id="create_button">
+                    Crear Viaje
                 </button>
             </form>           
          
