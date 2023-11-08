@@ -41,3 +41,6 @@ class TripRatingForm(forms.ModelForm):
         widgets = {
             'rating': forms.NumberInput(attrs={'step': '1', 'min': '0', 'max': '5'}),
         }
+
+class TripSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)

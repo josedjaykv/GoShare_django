@@ -29,5 +29,7 @@ urlpatterns = [
     path('trips/<int:trip_id>/leave/', views.leave_trip, name='leave_trip'),    
     path('trip/finalize/<int:trip_id>/', views.finalize_trip, name='finalize_trip'),
     path('trip/rate/<int:trip_id>/', views.rate_driver, name='rate_driver'),
-   
+
+    # Búsqueda
+    path('trip_search/', views.trip_search, name='trip_search'),   
 ]

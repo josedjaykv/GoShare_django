@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Buscar Viajes</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Buscar</button>
+    </form>
+    <h2>Resultados de la Búsqueda</h2>
+    <ul>
+        {% for trip in trips %}
+            <li>
+                Viaje de {{ trip.user.username }} desde {{ trip.startingPlace }} hasta {{ trip.arrivalPlace }}
+            </li>
+        {% empty %}
+            <p>No se encontraron resultados.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
