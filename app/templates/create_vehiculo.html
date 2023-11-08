@@ -13,7 +13,7 @@
 
                 {{form.as_p}}
 
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" id="create-button">
                     Save
                 </button>
 
@@ -21,4 +21,27 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtén una referencia al botón "Unirme"
+        var joinButton = document.getElementById('create-button');
+
+        // Agrega un controlador de eventos clic al botón
+        joinButton.addEventListener('click', function (event) {
+            // Utiliza el cuadro de diálogo de confirmación
+            var confirmed = confirm("¿Estás seguro de que deseas crear este vehículo");
+
+            // Si el usuario confirmó, redirige al usuario a 'my_trips'
+            if (confirmed) {
+                // Continuar con la redirección
+                return true;
+            } else {
+                // Prevenir la acción predeterminada si el usuario cancela
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
 {% endblock %}
