@@ -60,4 +60,9 @@ class TripRatingForm(forms.ModelForm):
         }
 
 class TripSearchForm(forms.Form):
-    search_query = forms.CharField(max_length=100, required=False)
+    search_query = forms.CharField(
+        max_length=100, 
+        required=False, 
+        label='Buscador:',
+        widget=forms.TextInput(attrs={'class': 'color-quaternary rounded input-buscador', 'placeholder': 'Buscar...'})
+        )

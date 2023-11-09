@@ -4,24 +4,28 @@
 {% block content %}
 
 <main class="container">
-    <div class="col-md-6 offset-md-3">
-        <h1 class="text-center display-3 py-5 text_primary color-quaternary">Viajes Disponibles</h1>
-        <ul class="list-group grupo">
+    <div class="col-md-6 offset-md-3 mt-2">
+        
+        <ul class="list-group grupo bg-secondary" style="display: flex; align-items: center; justify-content: center; align-content: center;">
 
-            <h1>Buscar Viajes</h1>
             <div class="form-container">
-                <form method="post" style="display: flex; align-items: center;">
+                <h1 class="text-center display-4 py-2 text_primary color-quaternary ">Viajes Disponibles</h1>
+                <form method="post" style="display: flex; align-items:center; justify-content:space-evenly;">
+                    <div class="buscador">
                     {% csrf_token %}
-                    {{ search_form.as_p }}
-                    <button type="submit">Buscar</button>
+                    <label for="{{ search_form.search_query.auto_id }}" class="color-quaternary fw-bold">{{ search_form.search_query.label }}</label>
+                    {{ search_form.search_query }}
+                    </div>
+                    <button type="submit" class="boton-submit">Buscar</button>
                 </form>
             </div>
-            <ul>
+            
                 {% for trip in search_trips %}
-                        <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
-                            <header class="d-flex justify-content-between">
+                        <a class="list-group-item item_grupo w-80" href="{% url 'trip_detail' trip.id %}">                
+                            <header class="d-flex justify-content-between" style="
+                                justify-content: space-around;">
                                 <h1 class="fw-bold">{{trip.startingPlace}}</h1>
-                                <h4>{{trip.user.username}}</h4>
+                                <h4 style="margin-left: 2rem;">{{trip.user.username}}</h4>
                             
                             </header>
                             <hr style="border-color: black;">
@@ -31,15 +35,15 @@
                             <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
                         </a>
                 {% empty %}
-                    <p>No hay viajes disponibles que coincidan con tu búsqueda</p>
+                    <p class="color-quaternary text-center">No hay viajes disponibles que coincidan con tu búsqueda</p>
                 {% endfor %}
-            </ul>
+            
 
             {% for trip in mytrips %}
                     <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
                     <header class="d-flex justify-content-between header_item_group">
                         <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
-                        <h4>{{ trip.user.username }}</h4>
+                        <h4 style="margin-left: 2rem;">{{ trip.user.username }}</h4>
                     </header>
                     <hr style="border-color: black;">
                     <p>{{ trip.arrivalPlace }}</p>
