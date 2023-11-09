@@ -139,10 +139,38 @@ def trips(request):
         occupied_seats=Count('passengers')
     )
 
+    if request.method == 'POST':
+        form = TripSearchForm(request.POST)
+        if form.is_valid():
+            search_query = form.cleaned_data['search_query']
+            
+            # Realiza la búsqueda en los viajes
+            trips = Trip.objects.filter(
+                Q(user__username__icontains=search_query) |  # Búsqueda en el nombre de usuario
+                Q(startingPlace__icontains=search_query) |  # Búsqueda en el lugar de inicio
+                Q(arrivalPlace__icontains=search_query)  # Búsqueda en el lugar de llegada
+            )
+        else:
+            # no muestra nada
+            trips = Trip.objects.none()
+            
+    else:
+        form = TripSearchForm()
+        trips = Trip.objects.none()
+
+    # Filtra los viajes por la condición trip.completed == False
+    trips = trips.filter(completed=False)
+    trips_with_occupied_seats = trips_with_occupied_seats.filter(completed=False)
+    mytrips = mytrips.filter(completed=False)
+    
     return render(request, 'trips.html', {
         'mytrips': mytrips,
         'trips': trips_with_occupied_seats,
+        'search_form': form,
+        'search_trips': trips,
     })
+
+
 
 
 def my_trips(request):
@@ -303,24 +331,4 @@ def rate_driver(request, trip_id):
         'form': form,
     })
 
-############################################# BUSQUEDA #############################################
 
-def trip_search(request):
-    if request.method == 'POST':
-        form = TripSearchForm(request.POST)
-        if form.is_valid():
-            search_query = form.cleaned_data['search_query']
-            
-            # Realiza la búsqueda en los viajes
-            trips = Trip.objects.filter(
-                Q(user__username__icontains=search_query) |  # Búsqueda en el nombre de usuario
-                Q(startingPlace__icontains=search_query) |  # Búsqueda en el lugar de inicio
-                Q(arrivalPlace__icontains=search_query)  # Búsqueda en el lugar de llegada
-            )
-        else:
-            trips = Trip.objects.all()
-    else:
-        form = TripSearchForm()
-        trips = Trip.objects.all()
-
-    return render(request, 'trip_search.html', {'form': form, 'trips': trips})

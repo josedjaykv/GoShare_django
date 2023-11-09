@@ -42,13 +42,17 @@
 <script>
     $(document).ready(function() {
         var usernameErrors = $("#user_error");
+        var password1 = $("#bad_password");
         if (usernameErrors.text().trim() !== "") {            
             usernameErrors.text("El nombre de usuario ya está en uso");            
         }
 
-        var password1 = $("#bad_password");
-        if (password1.text().trim() !== "") {
+        console.log(password1.text().trim());
+
+        if (password1.text().trim() == "password2The password is too similar to the username.") {
             password1.text("La contraseña no puede contener el nombre de usuario");
+        }else{
+            password1.text("");
         }
     });
 </script>

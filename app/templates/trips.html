@@ -8,9 +8,34 @@
         <h1 class="text-center display-3 py-5 text_primary color-quaternary">Viajes Disponibles</h1>
         <ul class="list-group grupo">
 
+            <h1>Buscar Viajes</h1>
+            <div class="form-container">
+                <form method="post" style="display: flex; align-items: center;">
+                    {% csrf_token %}
+                    {{ search_form.as_p }}
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <ul>
+                {% for trip in search_trips %}
+                        <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                            <header class="d-flex justify-content-between">
+                                <h1 class="fw-bold">{{trip.startingPlace}}</h1>
+                                <h4>{{trip.user.username}}</h4>
+                            
+                            </header>
+                            <hr style="border-color: black;">
+                            <p>{{trip.arrivalPlace}}</p>
+                            <p>{{trip.departureTime}}</p> 
+                            <p>{{trip.travelDate}}</p>                
+                            <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
+                        </a>
+                {% empty %}
+                    <p>No hay viajes disponibles que coincidan con tu búsqueda</p>
+                {% endfor %}
+            </ul>
 
             {% for trip in mytrips %}
-                {% if trip.completed == False %}
                     <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
                     <header class="d-flex justify-content-between header_item_group">
                         <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
@@ -28,24 +53,21 @@
                         <p class="text-danger text-center">Todos los asientos ya están reservados</p>
                     {% endif %}
                     </a>
-                {% endif %}
             {% endfor %}
 
             {% for trip in trips %}
-                {% if trip.completed == False %}
-                    <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
-                        <header class="d-flex justify-content-between">
-                            <h1 class="fw-bold">{{trip.startingPlace}}</h1>
-                            <h4>{{trip.user.username}}</h4>
+                <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                    <header class="d-flex justify-content-between">
+                        <h1 class="fw-bold">{{trip.startingPlace}}</h1>
+                        <h4>{{trip.user.username}}</h4>
                         
-                        </header>
-                        <hr style="border-color: black;">
-                        <p>{{trip.arrivalPlace}}</p>
-                        <p>{{trip.departureTime}}</p> 
-                        <p>{{trip.travelDate}}</p>                
-                        <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
-                    </a>
-                {% endif %}
+                    </header>
+                    <hr style="border-color: black;">
+                    <p>{{trip.arrivalPlace}}</p>
+                    <p>{{trip.departureTime}}</p> 
+                    <p>{{trip.travelDate}}</p>                
+                    <p>{{trip.vehiculo_disponible}} {{trip.vehiculo_disponible.color}}</p>
+                </a>
             {% endfor %}
         </ul>
 
