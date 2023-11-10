@@ -60,7 +60,11 @@ def signin(request):
 
 @login_required
 def profile(request):
-    return render(request, 'perfil.html') 
+    username = request.user.username
+
+    return render(request, 'perfil.html', {
+        'name': username
+    }) 
     
 ############################################# VEHICULOS #############################################
 @login_required

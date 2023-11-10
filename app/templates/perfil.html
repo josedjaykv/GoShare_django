@@ -36,7 +36,7 @@
     <main class="container py-5">
         <section class="card card-body">
             <h1 class="display-1 text-center">Mi perfil</h1>            
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam excepturi consectetur odio sed aspernatur numquam aut repellendus voluptatum nulla odit ad quas reiciendis dolorem incidunt, perferendis, eos autem veritatis. Repellendus!</p>
+            <h1 class="display-1 text-center" style="font-size: 32px; font-weight: bold; margin-block: 1rem;">Bienvenido de nuevo, {{name}}</h1>            
             <div class="text-center">
                 {% if user.is_authenticated %}                    
                     <a class="btn btn-primary" href="/trips/mine/">
