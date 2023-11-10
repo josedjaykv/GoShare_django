@@ -296,7 +296,7 @@ def delete_trip(request, trip_id):
 def finalize_trip(request, trip_id):
     trip = get_object_or_404(Trip, pk=trip_id)
 
-    if request.user == trip.user and trip.numseatsfree == 0:
+    if request.user == trip.user:
         # El usuario es el creador del viaje y todos los asientos están ocupados
         trip.completed = True
         trip.save()
