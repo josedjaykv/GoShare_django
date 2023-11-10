@@ -9,7 +9,7 @@
             <h2 class="text-center text-primary color-quaternary fw-bold">Viajes como creador</h2>
 
             {% for trip in mytrips %}
-            <a class="list-group-item item_grupo" style="margin: 2rem;" href="{% url 'trip_detail' trip.id %}">
+            <a class="list-group-item item_grupo" style="margin: 3.5rem; width: 80%;" href="{% url 'trip_detail' trip.id %}">
                 <header class="d-flex justify-content-between header_item_group">
                     <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
                     <h4>{{ trip.user.username }}</h4>
@@ -31,7 +31,7 @@
             <h2 class="text-center text-primary color-quaternary fw-bold">Viajes como pasajero</h2>
 
             {% for trip in trips_as_passenger %}
-            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">
+            <a class="list-group-item item_grupo" style="margin: 3.5rem; width: 80%;" href="{% url 'trip_detail' trip.id %}">
                 <header class="d-flex justify-content-between header_item_group">
                     <h1 class="text-primary text_primary">{{trip.startingPlace}}</h1>
                     <h4>{{ trip.user.username }}</h4>

@@ -13,4 +13,10 @@ header h4{
     margin-bottom: 10px;
 }
 
+.border-personalizado{
+    border: 2px solid rgb(15, 44, 89) !important;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
 
