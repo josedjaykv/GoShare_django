@@ -21,7 +21,7 @@
             </div>
             
                 {% for trip in search_trips %}
-                        <a class="list-group-item item_grupo border-personalizado" style="margin: 2rem; width: 80%;" href="{% url 'trip_detail' trip.id %}">                
+                        <a class="list-group-item item_grupo" style="margin: 2rem; width: 80%; background-color: azure; border: 2px solid rgb(15, 44, 89);" href="{% url 'trip_detail' trip.id %}">                
                             <header class="d-flex justify-content-between" style="
                                 justify-content: space-around;">
                                 <h1 class="fw-bold">{{trip.startingPlace}}</h1>
