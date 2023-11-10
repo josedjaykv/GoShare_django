@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 
-<main class="container">
-    <div class="col-md-6 offset-md-3">
-        <h1 class="text-center display-3 py-5 text_primary">Viajes disponibles</h1>
+<main class="container mt-2">
+    <div class="col-md-6 offset-md-3 mt-2 bg-secondary rounded">
+        <h1 class="text-center display-4 py-3 text_primary color-quaternary">Viajes Disponibles</h1>
         <ul class="list-group grupo">
-            <h2 class="text-center text-primary">Viajes como creador</h2>
+            <h2 class="text-center text-primary color-quaternary fw-bold">Viajes como creador</h2>
 
             {% for trip in mytrips %}
-            <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">
+            <a class="list-group-item item_grupo" style="margin: 2rem;" href="{% url 'trip_detail' trip.id %}">
                 <header class="d-flex justify-content-between header_item_group">
                     <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
                     <h4>{{ trip.user.username }}</h4>
@@ -28,7 +28,7 @@
             </a>
             {% endfor %}
 
-            <h2 class="text-center text-primary">Viajes como pasajero</h2>
+            <h2 class="text-center text-primary color-quaternary fw-bold">Viajes como pasajero</h2>
 
             {% for trip in trips_as_passenger %}
             <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">

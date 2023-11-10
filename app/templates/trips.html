@@ -6,11 +6,11 @@
 <main class="container">
     <div class="col-md-6 offset-md-3 mt-2">
         
-        <ul class="list-group grupo bg-secondary" style="display: flex; align-items: center; justify-content: center; align-content: center;">
+            <ul class="list-group grupo bg-secondary" style="display: flex; align-items: center; justify-content: center; align-content: center;">
 
             <div class="form-container">
-                <h1 class="text-center display-4 py-2 text_primary color-quaternary ">Viajes Disponibles</h1>
-                <form method="post" style="display: flex; align-items:center; justify-content:space-evenly;">
+                <h1 class="text-center display-4 py-2 text_primary color-quaternary  ">Viajes Disponibles</h1>
+                <form method="post" style="display: flex; align-items:center; justify-content:space-evenly">
                     <div class="buscador">
                     {% csrf_token %}
                     <label for="{{ search_form.search_query.auto_id }}" class="color-quaternary fw-bold">{{ search_form.search_query.label }}</label>
@@ -21,7 +21,7 @@
             </div>
             
                 {% for trip in search_trips %}
-                        <a class="list-group-item item_grupo w-80" href="{% url 'trip_detail' trip.id %}">                
+                        <a class="list-group-item item_grupo" style="margin: 2rem;" href="{% url 'trip_detail' trip.id %}">                
                             <header class="d-flex justify-content-between" style="
                                 justify-content: space-around;">
                                 <h1 class="fw-bold">{{trip.startingPlace}}</h1>
@@ -40,7 +40,7 @@
             
 
             {% for trip in mytrips %}
-                    <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                    <a class="list-group-item item_grupo" style="margin: 2rem; width: 80%;" href="{% url 'trip_detail' trip.id %}">                
                     <header class="d-flex justify-content-between header_item_group">
                         <h1 class="text-primary text_primary">{{ trip.startingPlace }}</h1>
                         <h4 style="margin-left: 2rem;">{{ trip.user.username }}</h4>
@@ -60,7 +60,7 @@
             {% endfor %}
 
             {% for trip in trips %}
-                <a class="list-group-item item_grupo" href="{% url 'trip_detail' trip.id %}">                
+                <a class="list-group-item item_grupo" style="margin: 2rem; width: 80%;"href="{% url 'trip_detail' trip.id %}">                
                     <header class="d-flex justify-content-between">
                         <h1 class="fw-bold">{{trip.startingPlace}}</h1>
                         <h4>{{trip.user.username}}</h4>

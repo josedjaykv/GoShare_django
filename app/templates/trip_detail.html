@@ -3,10 +3,10 @@
 {% block content %}
 <main class="container">
     <div class="row">
-        <div class="col-md-8 offset-md-2 mt-5">
-            <h1 class="text-center">Detalles del Viaje</h1>
+        <div class="col-md-8 offset-md-2 mt-5 mb-4 bg-secondary rounded">
+            <h1 class="text-center color-quaternary display-4 fw-bold">Detalles del Viaje</h1>
 
-            <div class="card card-body">
+            <div class="card card-body mb-2 mt-2">
 
                 {% if trip.completed %}
                 <h2 class="text-center text-success">Este viaje ha sido finalizado</h2>             
@@ -64,15 +64,31 @@
                 {% endif %}
 
                 {% else %}
-                <h3>{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
-                <p>Creador del viaje: {{ trip.user.username }}</p>
-                <p>Salida: {{ trip.departureTime }}</p>
-                <p>Fecha: {{ trip.travelDate }}</p>
-                <p>Plazas disponibles: {{ trip.numseatsfree }}</p>
-                <p>Vehiculo: {{ trip.vehiculo_disponible }} {{trip.vehiculo_disponible.color}} {{ trip.vehiculo_disponible.plate }}</p>                
-                {% if trip.details %}
-                <p>Detalles: {{ trip.details }}</p>
-                {% endif %}
+                <h3 class="fw-bold">{{ trip.startingPlace }} - {{ trip.arrivalPlace }}</h3>
+                <p>
+                    <span class="fw-bold">Creador del viaje:</span> {{ trip.user.username }}
+                </p>
+                <p>
+                    <span class="fw-bold">Salida:</span> {{ trip.departureTime }}
+                  </p>
+                  
+                  <p>
+                    <span class="fw-bold">Fecha:</span> {{ trip.travelDate }}
+                  </p>
+                  
+                  <p>
+                    <span class="fw-bold">Plazas disponibles:</span> {{ trip.numseatsfree }}
+                  </p>
+                  
+                  <p>
+                    <span class="fw-bold">Vehículo:</span> {{ trip.vehiculo_disponible }} {{trip.vehiculo_disponible.color}} {{ trip.vehiculo_disponible.plate }}
+                  </p>
+                  
+                  {% if trip.details %}
+                  <p>
+                    <span class="fw-bold">Detalles:</span> {{ trip.details }}
+                  </p>
+                  {% endif %}
 
                 {% if is_owner %}
                 <p>Creador del Viaje</p>
@@ -95,16 +111,20 @@
 
                 {% if is_owner %}
                 <!-- Mostrar el formulario de edición -->
-                <form method="POST" action="">
+                <form method="POST" action="" id="update-form">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    
                 </form>
+                
+                <div class="contenedor_botones" style="display: flex; justify-content: space-around; display:row;">
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()">Guardar Cambios</button>
                 <!-- Mostrar el botón de eliminar -->
-                <form action="{% url 'delete_trip' trip.id %}" method="post">
+                    <form action="{% url 'delete_trip' trip.id %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger">Eliminar</button>
                 </form>
+                </div>
                 {% endif %}
 
                 {% if is_owner and trip.numseatsfree == 0 and not trip.completed %}
@@ -119,8 +139,14 @@
     </div>
 </main>
 
+<script>
+    function submitForm() {
+      document.getElementById('update-form').submit();
+    }
+</script>
 
 <script>
+
     document.addEventListener('DOMContentLoaded', function () {
         // Obtén una referencia al botón "Unirme"
         var joinButton = document.getElementById('join-button');
