@@ -127,7 +127,7 @@
                 </div>
                 {% endif %}
 
-                {% if is_owner and trip.numseatsfree == 0 and not trip.completed %}
+                {% if is_owner and not trip.completed %}
                 <form method="POST" action="{% url 'finalize_trip' trip.id %}">
                     {% csrf_token %}
                     <button class="btn btn-danger">Finalizar viaje</button>
