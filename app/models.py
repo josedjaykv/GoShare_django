@@ -14,13 +14,9 @@ COLOR_CHOISES = [
 
 # Create your models here.
 class Vehiculo(models.Model):
-    brand = models.CharField(max_length=100)   
+    brand = models.CharField(max_length=25)   
     model = models.CharField(max_length=100)
-    color = models.CharField(
-        max_length=10,
-        choices=COLOR_CHOISES,
-        default='blanco'
-    )  
+    color = models.CharField(max_length=100)    
     plate = models.CharField(max_length=10, default="")
     created = models.DateTimeField(auto_now_add = True)
     editionDate = models.DateTimeField(null = True, blank=True)

@@ -19,13 +19,13 @@
         <div class="contenedor_botones">
             
           <button class="btn btn-primary" onclick="submitForm()">
-            Update
+            Guardar Cambios
           </button>
 
           <form action="{% url 'delete_vehiculo' vehiculo.id %}" method="POST">
             {% csrf_token %}
             <button class="btn btn-danger" id="delete_button">
-              Delete
+              Eliminar
             </button>
           </form>
         </div>

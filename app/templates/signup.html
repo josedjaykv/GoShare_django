@@ -51,6 +51,10 @@
 
         if (password1.text().trim() == "password2The password is too similar to the username.") {
             password1.text("La contraseña no puede contener el nombre de usuario");
+        } else if(password1.text().trim() == "password2The password is too similar to the username.This password is too common."){
+            password1.text("La contraseña no puede contener el nombre de usuario. La contraseña es muy común");
+        }else if(password1.text().trim() == "password2This password is too common."){
+            password1.text("La contraseña es muy común");
         }else{
             password1.text("");
         }

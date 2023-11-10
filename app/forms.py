@@ -9,8 +9,8 @@ class VehiculoForm(forms.ModelForm):
         widgets = {
             'brand': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Chevrolet'}),
             'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Spark GT'}),
-            'plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ' EJ: ABC-123'}),
-            'color': forms.Select(attrs={'class': 'form-control'}),
+            'plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: ABC-123'}),
+            'color': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Rojo Mazda'}),
         }
 
         labels = {
