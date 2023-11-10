@@ -124,15 +124,16 @@
                     {% csrf_token %}
                     <button class="btn btn-danger">Eliminar</button>
                 </form>
-                </div>
-                {% endif %}
-
                 {% if is_owner and not trip.completed %}
                 <form method="POST" action="{% url 'finalize_trip' trip.id %}">
                     {% csrf_token %}
                     <button class="btn btn-danger">Finalizar viaje</button>
                 </form>
                 {% endif %}
+                </div>
+                {% endif %}
+
+                
                 {% endif %}
             </div>
         </div>

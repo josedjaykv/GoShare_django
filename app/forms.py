@@ -63,6 +63,6 @@ class TripSearchForm(forms.Form):
     search_query = forms.CharField(
         max_length=100, 
         required=True, 
-        label='Buscador:',
+        label='',
         widget=forms.TextInput(attrs={'class': 'color-quaternary rounded input-buscador', 'placeholder': 'Buscar...'})
         )
