@@ -94,3 +94,7 @@ body{
     margin-bottom: 10px;
     font-size: large;
 }
+
+.borde-personalizado{
+    border: 2px solid rgb(15, 44, 89) !important;
+}
