@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
-from .forms import VehiculoForm, TripForm, TripRatingForm, TripSearchForm
+from .forms import VehiculoForm, TripForm, TripRatingForm, TripSearchForm, CustomUserCreationForm
 from .models import Vehiculo, Trip, TripRating
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -16,10 +16,23 @@ def home(request):
     return render(request, 'home.html')
 
 ############################################# USUARIOS #############################################
+
+def signup2(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Puedes realizar acciones adicionales después de la creación del usuario, por ejemplo, iniciar sesión automáticamente.
+            # login(request, user)
+            return redirect('trips')
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'signup.html', {'form': form})
     
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -44,8 +57,11 @@ def signin(request):
             'form': AuthenticationForm
         })
     else:  # me están enviando datos
-        user = authenticate(
-            request, username=request.POST['username'], password=request.POST['password'])
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        user = authenticate(request, username=username, password=password)
+
 
         if user is None:
             return render(request, 'signin.html', {

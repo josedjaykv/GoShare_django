@@ -54,8 +54,8 @@ $(document).ready(function() {
 
     function toggleSignupButton() {
         // Obtén los campos de contraseña y los mensajes de error
-        var password1 = $("#password1").val();
-        var password2 = $("#password2").val();
+        var password1 = $("#password1").val() || "";
+        var password2 = $("#password2").val() || "";
         var passwordErrors = $("#password-error").text();
         var passwordMatchError = $("#password-match-error").text();
 

@@ -1,5 +1,11 @@
 from django import forms
-from .models import Vehiculo, Trip, TripRating
+from .models import Vehiculo, Trip, TripRating, CustomUser
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + ('number_of_trips', 'average_rating',)
 
 class VehiculoForm(forms.ModelForm):    
     class Meta:
@@ -34,7 +40,7 @@ class TripForm(forms.ModelForm):
         widgets = {
             'startingPlace': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Estación exposiciones'}),
             'arrivalPlace': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Universidad EIA'}),
-            'details': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ej: Manejo muy rápido, me dicen el rayo, o también Verstappen'}),
+            'details': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ej: Manejo muy rápido, me dicen Verstappen'}),
             'departureTime': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 12:00', 'type' : 'time'}),
             'travelDate': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 2021-10-10', 'type' : 'date'}),
             'numseatsfree': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
